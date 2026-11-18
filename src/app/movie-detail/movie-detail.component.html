@@ -1,0 +1,36 @@
+<div class="fondo" (click)="cerrarDetalle()">
+  <section class="panel" role="dialog" aria-modal="true" aria-label="Detalle de la película" (click)="$event.stopPropagation()">
+    <button type="button" class="panel__cerrar" aria-label="Cerrar detalle" (click)="cerrarDetalle()">Cerrar</button>
+
+    <p class="estado" *ngIf="estado().cargando">Cargando detalle...</p>
+    <p class="estado estado--error" *ngIf="estado().error">No se pudo cargar el detalle de la película.</p>
+
+    <article class="detalle" *ngIf="estado().pelicula as pelicula">
+      <img class="detalle__poster" *ngIf="imagen(pelicula) as url" [src]="url" [alt]="'Póster de ' + pelicula.title" />
+
+      <div class="detalle__texto">
+        <h2>{{ pelicula.title }}</h2>
+        <p class="detalle__original" *ngIf="pelicula.original_title !== pelicula.title">Título original: {{ pelicula.original_title }}</p>
+        <p class="detalle__eslogan" *ngIf="pelicula.tagline">{{ pelicula.tagline }}</p>
+
+        <ul class="generos">
+          <li class="etiqueta" *ngFor="let genero of pelicula.genres">{{ genero.name }}</li>
+        </ul>
+
+        <dl class="datos">
+          <dt>Calificación</dt>
+          <dd>{{ pelicula.vote_average | number: '1.1-1' }} / 10 ({{ pelicula.vote_count }} votos)</dd>
+          <dt>Estreno</dt>
+          <dd>{{ pelicula.release_date | date: 'longDate' }}</dd>
+          <dt *ngIf="pelicula.runtime">Duración</dt>
+          <dd *ngIf="pelicula.runtime">{{ pelicula.runtime }} minutos</dd>
+          <dt>Estado</dt>
+          <dd>{{ pelicula.status }}</dd>
+        </dl>
+
+        <h3>Sinopsis</h3>
+        <p>{{ pelicula.overview || 'No hay sinopsis disponible en español.' }}</p>
+      </div>
+    </article>
+  </section>
+</div>

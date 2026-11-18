@@ -1,0 +1,40 @@
+<div class="encabezado">
+  <h2>Películas mejor valoradas <span class="contador" *ngIf="peliculas().length > 0">({{ peliculas().length }})</span></h2>
+</div>
+
+<p class="mensaje mensaje--error" *ngIf="error()">
+  No se pudieron obtener las películas. Revisa tu conexión y la clave de TMDB en el archivo environment.ts.
+  <button type="button" class="boton boton--secundario" (click)="cargarSiguientePagina()">Reintentar</button>
+</p>
+
+<p class="mensaje" *ngIf="cargando() && peliculas().length === 0">Cargando películas...</p>
+
+<section class="rejilla">
+  <article class="pelicula" *ngFor="let pelicula of peliculas()">
+    <button type="button" class="pelicula__boton" (click)="seleccionar(pelicula.id)" [attr.aria-label]="'Ver detalle de ' + pelicula.title">
+      <img
+        class="pelicula__poster"
+        *ngIf="imagen(pelicula) as url; else sinImagen"
+        [src]="url"
+        [alt]="'Póster de ' + pelicula.title"
+        loading="lazy"
+      />
+      <ng-template #sinImagen><div class="pelicula__poster pelicula__poster--vacio">Sin imagen</div></ng-template>
+      <span class="pelicula__info">
+        <strong class="pelicula__titulo">{{ pelicula.title }}</strong>
+        <span class="pelicula__meta">
+          {{ pelicula.release_date | date: 'yyyy' }} &middot; Calificación {{ pelicula.vote_average | number: '1.1-1' }}
+        </span>
+      </span>
+    </button>
+  </article>
+</section>
+
+<div class="mas" *ngIf="peliculas().length > 0 && hayMasPaginas()">
+  <button type="button" class="boton" [disabled]="cargando()" (click)="cargarSiguientePagina()">
+    {{ cargando() ? 'Cargando...' : 'Cargar más películas' }}
+  </button>
+</div>
+
+<!-- Componente hijo: se muestra al presionar una película -->
+<app-movie-detail *ngIf="idSeleccionado() !== null" [movieId]="idSeleccionado()!" (cerrar)="seleccionar(null)"></app-movie-detail>

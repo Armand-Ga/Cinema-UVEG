@@ -1,0 +1,39 @@
+.barra {
+  background: #0f172a;
+  color: #fff;
+}
+
+.barra__contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.barra__marca {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.barra__lema {
+  color: #94a3b8;
+}
+
+.contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2.5rem;
+  min-height: calc(100vh - 130px);
+}
+
+.pie {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  padding: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
